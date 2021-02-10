@@ -5,11 +5,7 @@ const baseUrl = "http://api.weatherapi.com/v1";
 const autocomp = "/search.json";
 const forecast = "/forecast.json";
 
-let key = "";
-
-if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-  key = process.env.REACT_APP_KEY;
-}
+let key = process.env.REACT_APP_KEY;
 
 const getStorageQuery = () => {
   let query = "London";
