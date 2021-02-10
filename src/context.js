@@ -7,6 +7,10 @@ const forecast = "/forecast.json";
 
 let key = process.env.REACT_APP_KEY;
 
+if (process.env.NODE_ENV === "production") {
+  key = process.env.REACT_APP_KEY;
+}
+
 const getStorageQuery = () => {
   let query = "London";
   if (localStorage.getItem("query")) {
