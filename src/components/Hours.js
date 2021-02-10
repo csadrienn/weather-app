@@ -6,20 +6,19 @@ import { splitArray } from "../util";
 const Hours = () => {
   const { activeDay, setActiveHour, activeHour, degree } = useWeatherContext();
   const [index, setIndex] = useState(0);
-  const [hoursPerSlider, setHoursPerSlider] = useState(6);
+  const [hoursPerSlider, setHoursPerSlider] = useState(window.innerWidth > 800 ? 6 : 3);
 
   // set the number of visible cards in the slider depending on the window width
   useEffect(() => {
     const updateHoursPerSlider = () => {
-      if (window.innerWidth > 780 && hoursPerSlider !== 6) {
+      if (window.innerWidth >= 800 && hoursPerSlider !== 6) {
         setHoursPerSlider(6);
       }
 
-      if (window.innerWidth < 780 && hoursPerSlider !== 3) {
+      if (window.innerWidth < 800 && hoursPerSlider !== 3) {
         setHoursPerSlider(3);
       }
     };
-
     window.addEventListener("resize", updateHoursPerSlider);
     return () => window.removeEventListener("resize", updateHoursPerSlider);
   });
