@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BsCaretLeftFill, BsCaretRightFill } from "react-icons/bs";
 import { useWeatherContext } from "../context";
 import { splitArray } from "../util";
+import { Swipeable } from "react-touch";
 
 const Hours = () => {
   const { activeDay, setActiveHour, activeHour, degree } = useWeatherContext();
@@ -72,55 +73,59 @@ const Hours = () => {
       >
         <BsCaretLeftFill className="icon" />
       </button>
-
-      <div className="slider-container">
-        {splitHours.map((hoursChunk, chunkIndex) => {
-          //return the visible div container of the hours
-          return (
-            <div
-              key={chunkIndex}
-              className="slider"
-              style={{ transform: `translateX(-${movement}%)` }}
-            >
-              {hoursChunk.map(hour => {
-                const { time_epoch, time, temp_c, temp_f, condition } = hour;
-                let temp = degree === "c" ? `${temp_c} ℃` : `${temp_f} °F`;
-                // if the hour has passed add past to classes
-                const activeDate = new Date(activeDay.date).getDate();
-                const currentDate = new Date().getDate();
-                const TimeDiff = new Date().getHours() - new Date(hour.time).getHours();
-                let past = "";
-                if (activeDate === currentDate && TimeDiff > 0) {
-                  past = "past";
-                }
-                //return the hour cards
-                return (
-                  <div
-                    className="slider-item"
-                    key={time_epoch}
-                    style={{ minWidth: `${100 / hoursPerSlider}%` }}
-                  >
+      <Swipeable
+        onSwipeLeft={() => handleCaretClick("prev")}
+        onSwipeRight={() => handleCaretClick("next")}
+      >
+        <div className="slider-container">
+          {splitHours.map((hoursChunk, chunkIndex) => {
+            //return the visible div container of the hours
+            return (
+              <div
+                key={chunkIndex}
+                className="slider"
+                style={{ transform: `translateX(-${movement}%)` }}
+              >
+                {hoursChunk.map(hour => {
+                  const { time_epoch, time, temp_c, temp_f, condition } = hour;
+                  let temp = degree === "c" ? `${temp_c} ℃` : `${temp_f} °F`;
+                  // if the hour has passed add past to classes
+                  const activeDate = new Date(activeDay.date).getDate();
+                  const currentDate = new Date().getDate();
+                  const TimeDiff = new Date().getHours() - new Date(hour.time).getHours();
+                  let past = "";
+                  if (activeDate === currentDate && TimeDiff > 0) {
+                    past = "past";
+                  }
+                  //return the hour cards
+                  return (
                     <div
-                      className={
-                        activeHour.time_epoch === hour.time_epoch
-                          ? `card card-sec ${past} active`
-                          : `card card-sec ${past}`
-                      }
-                      onClick={() => setActiveHour(hour)}
+                      className="slider-item"
+                      key={time_epoch}
+                      style={{ minWidth: `${100 / hoursPerSlider}%` }}
                     >
-                      <p>{time.slice(-5)}</p>
-                      <img src={condition.icon} alt={condition.text} />
-                      <p>
-                        <span>{temp}</span>
-                      </p>
+                      <div
+                        className={
+                          activeHour.time_epoch === hour.time_epoch
+                            ? `card card-sec ${past} active`
+                            : `card card-sec ${past}`
+                        }
+                        onClick={() => setActiveHour(hour)}
+                      >
+                        <p>{time.slice(-5)}</p>
+                        <img src={condition.icon} alt={condition.text} />
+                        <p>
+                          <span>{temp}</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
-      </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      </Swipeable>
 
       <button
         type="button"
