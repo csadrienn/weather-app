@@ -74,8 +74,8 @@ const Hours = () => {
         <BsCaretLeftFill className="icon" />
       </button>
       <Swipeable
-        onSwipeLeft={() => handleCaretClick("prev")}
-        onSwipeRight={() => handleCaretClick("next")}
+        onSwipeRight={() => handleCaretClick("prev")}
+        onSwipeLeft={() => handleCaretClick("next")}
       >
         <div className="slider-container">
           {splitHours.map((hoursChunk, chunkIndex) => {
