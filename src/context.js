@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 
 const WeatherContext = React.createContext();
-const baseUrl = "http://api.weatherapi.com/v1";
+const baseUrl = "https://api.weatherapi.com/v1";
 const autocomp = "/search.json";
 const forecast = "/forecast.json";
 
