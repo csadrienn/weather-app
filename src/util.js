@@ -9,7 +9,7 @@ export const splitArray = (array, stop) => {
 };
 
 export const getWeekday = (day, short = false) => {
-  if (!day) {
+  if (day !== 0 && !day) {
     day = new Date().getDay();
   }
   let weekDay = "";
